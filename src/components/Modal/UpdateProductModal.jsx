@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { editProduct } from '../../services/productServices';
 
 const UpdateProductModal = ({ product, onClose, onSave }) => {
@@ -9,12 +11,13 @@ const UpdateProductModal = ({ product, onClose, onSave }) => {
   });
 
   useEffect(() => {
-    // Cuando cambia el producto, actualiza el formData con los nuevos datos del producto
-    setFormData({
-      product_name: product.product_name,
-      description: product.description,
-      price: product.price
-    });
+    if (product) {
+      setFormData({
+        product_name: product.product_name || '',
+        description: product.description || '',
+        price: product.price || ''
+      });
+    }
   }, [product]);
 
   const handleChange = (e) => {
@@ -26,12 +29,17 @@ const UpdateProductModal = ({ product, onClose, onSave }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("ID del producto:", product.id);
+    console.log("Datos enviados para actualización:", formData);
+    
     try {
-      await editProduct(product.id, formData); // Envía los datos actualizados al servidor
+      await editProduct(product.id, formData);
       onSave(); // Actualiza la lista de productos
       onClose(); // Cierra el modal de edición
+      toast.success('Producto actualizado exitosamente');
     } catch (error) {
       console.error('Error al actualizar el producto:', error);
+      toast.error('Hubo un error al actualizar el producto');
     }
   };
 

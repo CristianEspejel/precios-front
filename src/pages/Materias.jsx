@@ -50,25 +50,26 @@ const Materias = () => {
   };
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900 min-h-screen py-12 sm:ml-64">
-      <div className="mx-auto px-4 lg:px-12">
-        <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
-          <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
-            <div className="w-full md:w-1/2">
-              <SearchBar onSearch={handleSearch} />
-            </div>
-            <div className="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-              <AddButton onClick={openCreateModal} />
-            </div>
-          </div>
-          <Table products={products} onEdit={openUpdateModal} onDelete={handleDeleteProduct} />
-          <Pagination />
-        </div>
-      </div>
+    // <section className="bg-gray-50 dark:bg-gray-900 min-h-screen py-12 sm:ml-64">
+    //   <div className="mx-auto px-4 lg:px-12">
+    //     <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+    //       <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
+    //         <div className="w-full md:w-1/2">
+    //           <SearchBar onSearch={handleSearch} />
+    //         </div>
+    //         <div className="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
+    //           <AddButton onClick={openCreateModal} />
+    //         </div>
+    //       </div>
+    //       <Table products={products} onEdit={openUpdateModal} onDelete={handleDeleteProduct} />
+    //       <Pagination />
+    //     </div>
+    //   </div>
 
-      {isCreateModalOpen && <CreateItemModal onClose={() => setIsCreateModalOpen(false)} onSave={fetchProducts} />}
-      {isUpdateModalOpen && <UpdateItemModal product={currentProduct} onClose={() => setIsUpdateModalOpen(false)} onSave={fetchProducts} />}
-    </section>
+    //   {isCreateModalOpen && <CreateItemModal onClose={() => setIsCreateModalOpen(false)} onSave={fetchProducts} />}
+    //   {isUpdateModalOpen && <UpdateItemModal product={currentProduct} onClose={() => setIsUpdateModalOpen(false)} onSave={fetchProducts} />}
+    // </section>
+    <></>
   );
 };
 
