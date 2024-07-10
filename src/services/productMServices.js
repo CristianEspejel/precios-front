@@ -1,4 +1,4 @@
-const apiUrl = 'http://localhost:3000/product/materias'; // URL base de tu API para la categoría 'materias'
+const apiUrl = 'http://localhost:3000/products/materias'; // URL base de tu API para la categoría 'materias'
 
 // Obtener todos los productos de materias
 export const getAllProduct = () => {
@@ -37,8 +37,29 @@ export const addProduct = (newProduct) => {
 };
 
 // Editar un producto de materias existente
+// export const editProduct = (productId, updatedProduct) => {
+//   return fetch(`${apiUrl}/edit/${productId}`, {
+//     method: 'PUT',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify(updatedProduct)
+//   })
+//     .then(response => {
+//       if (!response.ok) {
+//         throw new Error('Error al actualizar el producto: ' + response.status);
+//       }
+//       return response.json();
+//     })
+//     .catch(error => {
+//       console.error('Error en la función editProduct:', error);
+//       throw error;
+//     });
+// };
+
+
 export const editProduct = (productId, updatedProduct) => {
-  return fetch(`${apiUrl}/edit/${productId}`, {
+  return fetch(`http://localhost:3000/products/materias/edit/${productId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'

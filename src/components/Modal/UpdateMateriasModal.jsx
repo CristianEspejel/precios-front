@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { editProduct } from '../../services/productServices';
+import { editProduct } from '../../services/productMServices';
 
 const UpdateProductModal = ({ product, onClose, onSave }) => {
   const [formData, setFormData] = useState({
