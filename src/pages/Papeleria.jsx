@@ -38,22 +38,25 @@ const Papeleria = () => {
     try {
       const data = await getAllProduct();
       setProducts(data);
-      setFilteredProducts(data);
+      setFilteredProducts(data); // Inicialmente mostrar todos los productos
     } catch (error) {
       console.error('Error fetching products:', error);
     }
   };
 
   const handleSearch = (value) => {
-    const searchQuery = value.toLowerCase(); // Convertir la búsqueda a minúsculas
-  
-    // Filtrar productos en función de la consulta de búsqueda
-    const filtered = products.filter(product =>
-      product.name && product.name.toLowerCase().includes(searchQuery)
-    );
-  
-    // Actualizar los productos filtrados
-    setFilteredProducts(filtered);
+    const searchQuery = value.trim().toLowerCase();
+
+    if (searchQuery === '') {
+      setFilteredProducts(products); // Mostrar todos los productos si la búsqueda está vacía
+    } else {
+      const filtered = products.filter((product) => {
+        if (!product.product_name) return false; // Filtrar solo por productos con nombre definido
+        const productName = product.product_name.toLowerCase();
+        return productName.includes(searchQuery); // Filtrar productos que contienen la búsqueda en el nombre
+      });
+      setFilteredProducts(filtered); // Actualizar productos filtrados
+    }
   };
 
   const handleOpenCreateModal = () => {

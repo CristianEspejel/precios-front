@@ -11,6 +11,7 @@ import Pagination from '../components/Pagination/Pagination';
 
 const Materias = () => {
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -21,17 +22,40 @@ const Materias = () => {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    if (searchQuery === '') {
+      setFilteredProducts(products);
+    } else {
+      const filtered = products.filter(product =>
+        product.name && product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredProducts(filtered);
+    }
+  }, [searchQuery, products]);
+
   const fetchProducts = async () => {
     try {
       const data = await getAllProduct();
       setProducts(data);
+      setFilteredProducts(data); // Mostrar todos los productos inicialmente
     } catch (error) {
       console.error('Error fetching products:', error);
     }
   };
 
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
+  const handleSearch = (value) => {
+    const searchQuery = value.trim().toLowerCase();
+
+    if (searchQuery === '') {
+      setFilteredProducts(products); // Mostrar todos los productos si la búsqueda está vacía
+    } else {
+      const filtered = products.filter((product) => {
+        if (!product.product_name) return false; // Filtrar solo por productos con nombre definido
+        const productName = product.product_name.toLowerCase();
+        return productName.includes(searchQuery); // Filtrar productos que contienen la búsqueda en el nombre
+      });
+      setFilteredProducts(filtered); // Actualizar productos filtrados
+    }
   };
 
   const handleOpenCreateModal = () => {
@@ -40,14 +64,14 @@ const Materias = () => {
 
   const handleCloseCreateModal = () => {
     setIsCreateModalOpen(false);
-    fetchProducts();
+    fetchProducts(); // Actualizar lista de productos al cerrar el modal de creación
   };
 
   const handleAddProduct = async (newProductData) => {
     try {
       await addProduct(newProductData);
-      fetchProducts();
-      handleCloseCreateModal();
+      fetchProducts(); // Actualizar lista de productos tras agregar uno nuevo
+      handleCloseCreateModal(); // Cerrar modal de creación
       toast.success('Producto agregado correctamente');
     } catch (error) {
       console.error('Error al agregar el producto:', error);
@@ -60,31 +84,17 @@ const Materias = () => {
     setIsUpdateModalOpen(true);
   };
 
-  // const handleEditProduct = async (updatedProductData) => {
-  //   try {
-  //     await editProduct(currentProduct.id, updatedProductData);
-  //     fetchProducts();
-  //     setIsUpdateModalOpen(false);
-  //     toast.success('Producto actualizado correctamente');
-  //   } catch (error) {
-  //     console.error('Error al actualizar el producto:', error);
-  //     toast.error('Hubo un error al actualizar el producto');
-  //   }
-  // };
-
   const handleEditProduct = async (updatedProductData) => {
     try {
-      console.log("Datos enviados para actualización:", updatedProductData);
       await editProduct(currentProduct.id, updatedProductData);
-      fetchProducts();
-      setIsUpdateModalOpen(false);
-      // toast.success('Producto actualizado correctamente');
+      fetchProducts(); // Actualizar lista de productos tras editar uno
+      setIsUpdateModalOpen(false); // Cerrar modal de edición
+      toast.success('Producto actualizado correctamente');
     } catch (error) {
       console.error('Error al actualizar el producto:', error);
-      // toast.error('Hubo un error al actualizar el producto');
+      toast.error('Hubo un error al actualizar el producto');
     }
   };
-  
 
   const handleOpenDeleteModal = (productId) => {
     setDeleteProductId(productId);
@@ -97,12 +107,12 @@ const Materias = () => {
   const handleDeleteProduct = async () => {
     try {
       await deleteProduct(deleteProductId);
-      fetchProducts();
-      setDeleteProductId(null);
-      // toast.success('Producto eliminado correctamente');
+      fetchProducts(); // Actualizar lista de productos tras eliminar uno
+      setDeleteProductId(null); // Limpiar ID de producto a eliminar
+      toast.success('Producto eliminado correctamente');
     } catch (error) {
       console.error('Error al eliminar el producto:', error);
-      // toast.error('Hubo un error al eliminar el producto');
+      toast.error('Hubo un error al eliminar el producto');
     }
   };
 
@@ -118,7 +128,7 @@ const Materias = () => {
               <button className='flex items-center justify-center text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-green-500 dark:hover:bg-green-600 focus:outline-none dark:focus:ring-green-800' onClick={handleOpenCreateModal}>Agregar Producto</button>
             </div>
           </div>
-          <Table products={products} onEdit={openUpdateModal} onDelete={handleOpenDeleteModal} />
+          <Table products={filteredProducts} onEdit={openUpdateModal} onDelete={handleOpenDeleteModal} />
           <Pagination />
         </div>
       </div>
