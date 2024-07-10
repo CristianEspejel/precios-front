@@ -11,6 +11,7 @@ import Pagination from '../components/Pagination/Pagination';
 
 const Papeleria = () => {
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -21,17 +22,38 @@ const Papeleria = () => {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    if (searchQuery === '') {
+      setFilteredProducts(products);
+    } else {
+      const filtered = products.filter(product =>
+        product.name && product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      console.log("Filtered products:", filtered); // Agrega este console.log
+      setFilteredProducts(filtered);
+    }
+  }, [searchQuery, products]);
+
   const fetchProducts = async () => {
     try {
       const data = await getAllProduct();
       setProducts(data);
+      setFilteredProducts(data);
     } catch (error) {
       console.error('Error fetching products:', error);
     }
   };
 
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
+  const handleSearch = (value) => {
+    const searchQuery = value.toLowerCase(); // Convertir la búsqueda a minúsculas
+  
+    // Filtrar productos en función de la consulta de búsqueda
+    const filtered = products.filter(product =>
+      product.name && product.name.toLowerCase().includes(searchQuery)
+    );
+  
+    // Actualizar los productos filtrados
+    setFilteredProducts(filtered);
   };
 
   const handleOpenCreateModal = () => {
@@ -60,20 +82,17 @@ const Papeleria = () => {
     setIsUpdateModalOpen(true);
   };
 
-
   const handleEditProduct = async (updatedProductData) => {
     try {
-      console.log("Datos enviados para actualización:", updatedProductData);
       await editProduct(currentProduct.id, updatedProductData);
       fetchProducts();
       setIsUpdateModalOpen(false);
-      // toast.success('Producto actualizado correctamente');
+      toast.success('Producto actualizado correctamente');
     } catch (error) {
       console.error('Error al actualizar el producto:', error);
-      // toast.error('Hubo un error al actualizar el producto');
+      toast.error('Hubo un error al actualizar el producto');
     }
   };
-  
 
   const handleOpenDeleteModal = (productId) => {
     setDeleteProductId(productId);
@@ -107,7 +126,7 @@ const Papeleria = () => {
               <button className='flex items-center justify-center text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-green-500 dark:hover:bg-green-600 focus:outline-none dark:focus:ring-green-800' onClick={handleOpenCreateModal}>Agregar Producto</button>
             </div>
           </div>
-          <Table products={products} onEdit={openUpdateModal} onDelete={handleOpenDeleteModal} />
+          <Table products={filteredProducts} onEdit={openUpdateModal} onDelete={handleOpenDeleteModal} />
           <Pagination />
         </div>
       </div>
