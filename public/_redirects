@@ -1,6 +1,6 @@
  /* /index.html 200
-/catalogo /catalogo.html 200
-/sucursales /sucursales.html 200
-/blog /blog.html 200
-/contacto /contacto.html 200
-/login /login.html 200
+/materias-primas /materias-primas.html 200
+/papeleria /papeleria.html 200
+/deudores /blog.html 200
+/materias-deudores /materias-deudores.html 200
+/papeleria-deudores /papeleria-deudores.html 200
