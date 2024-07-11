@@ -1,7 +1,7 @@
 // ProductService.js
 
-const apiUrl = 'http://localhost:3000/prices/papeleria'; // URL base de tu API para la categoría 'papeleria'
-
+// const apiUrl = 'http://localhost:3000/prices/papeleria'; // URL base de tu API para la categoría 'papeleria'
+const apiUrl = 'https://jolly-hummingbird-cb9b1e.netlify.app/prices/papeleria';
 // Obtener todos los productos de papelería
 export const getAllProduct = () => {
   return fetch(apiUrl)
@@ -82,7 +82,7 @@ export const addProduct = (newProduct) => {
 
 
 export const editProduct = (productId, updatedProduct) => {
-  return fetch(`http://localhost:3000/prices/papeleria/edit/${productId}`, {
+  return fetch(`https://jolly-hummingbird-cb9b1e.netlify.app/prices/papeleria/edit/${productId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
