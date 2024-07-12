@@ -1,5 +1,5 @@
 // const apiUrl = 'http://localhost:3000/products/materias'; // URL base de tu API para la categoría 'materias'
-const apiUrl = 'https://jolly-hummingbird-cb9b1e.netlify.app/products/materias';
+const apiUrl = 'https://precios-back-production.up.railway.app/products/materias';
 // Obtener todos los productos de materias
 export const getAllProduct = () => {
   return fetch(apiUrl)
@@ -59,7 +59,7 @@ export const addProduct = (newProduct) => {
 
 
 export const editProduct = (productId, updatedProduct) => {
-  return fetch(`https://jolly-hummingbird-cb9b1e.netlify.app/products/materias/edit/${productId}`, {
+  return fetch(`https://precios-back-production.up.railway.app/products/materias/edit/${productId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
