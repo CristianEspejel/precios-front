@@ -18,7 +18,7 @@ const Papeleria = () => {
   const [currentProduct, setCurrentProduct] = useState(null);
   const [deleteProductId, setDeleteProductId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1); // Estado para la página actual
-  const [productsPerPage] = useState(5); // Cantidad de productos por página
+  const [productsPerPage] = useState(15); // Cantidad de productos por página
 
   useEffect(() => {
     fetchProducts();
