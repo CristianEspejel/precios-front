@@ -1,4 +1,4 @@
-// import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getAllProduct, deleteProduct, addProduct, editProduct } from '../services/productServices';
@@ -18,11 +18,11 @@ const Papeleria = () => {
   const [currentProduct, setCurrentProduct] = useState(null);
   const [deleteProductId, setDeleteProductId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1); // Estado para la página actual
-  const [productsPerPage] = useState(15); // Cantidad de productos por página
+  const [productsPerPage] = useState(5); // Cantidad de productos por página
 
   useEffect(() => {
     fetchProducts();
-  }, [currentPage]); // Asegúrate de que se actualicen los productos cuando cambie la página
+  }, []);
 
   useEffect(() => {
     if (searchQuery === '') {
@@ -31,6 +31,7 @@ const Papeleria = () => {
       const filtered = products.filter(product =>
         product.name && product.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
+      console.log("Filtered products:", filtered); // Agrega este console.log
       setFilteredProducts(filtered);
     }
   }, [searchQuery, products]);
@@ -118,16 +119,6 @@ const Papeleria = () => {
     }
   };
 
-  // Función para cambiar de página
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-
-  // Calcular índices de productos mostrados en la página actual
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-
   return (
     <section className="bg-gray-50 dark:bg-gray-900 min-h-screen py-12 sm:ml-64 mt-12">
       <div className="mx-auto px-4 lg:px-12">
@@ -140,12 +131,8 @@ const Papeleria = () => {
               <button className='flex items-center justify-center text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-green-500 dark:hover:bg-green-600 focus:outline-none dark:focus:ring-green-800' onClick={handleOpenCreateModal}>Agregar Producto</button>
             </div>
           </div>
-          <Table products={currentProducts} onEdit={openUpdateModal} onDelete={handleOpenDeleteModal} startIndex={indexOfFirstProduct + 1} />
-          <Pagination
-            currentPage={currentPage}
-            totalPages={Math.ceil(filteredProducts.length / productsPerPage)}
-            onPageChange={handlePageChange}
-          />
+          <Table products={filteredProducts} onEdit={openUpdateModal} onDelete={handleOpenDeleteModal} />
+          <Pagination />
         </div>
       </div>
 
