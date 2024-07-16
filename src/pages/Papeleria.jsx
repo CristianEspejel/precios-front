@@ -118,7 +118,8 @@ const Papeleria = () => {
       toast.error('Hubo un error al eliminar el producto');
     }
   };
-
+  // Cálculo de startIndex
+  const startIndex = (currentPage - 1) * productsPerPage + 1;
   return (
     <section className="bg-gray-50 dark:bg-gray-900 min-h-screen py-12 sm:ml-64 mt-12">
       <div className="mx-auto px-4 lg:px-12">
@@ -131,7 +132,10 @@ const Papeleria = () => {
               <button className='flex items-center justify-center text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-green-500 dark:hover:bg-green-600 focus:outline-none dark:focus:ring-green-800' onClick={handleOpenCreateModal}>Agregar Producto</button>
             </div>
           </div>
-          <Table products={filteredProducts} onEdit={openUpdateModal} onDelete={handleOpenDeleteModal} />
+          {/* <Table products={filteredProducts} onEdit={openUpdateModal} onDelete={handleOpenDeleteModal} /> */}
+          {/* <Table products={filteredProducts} onEdit={openUpdateModal} onDelete={handleOpenDeleteModal} startIndex={(currentPage - 1) * productsPerPage} /> */}
+          <Table products={filteredProducts} onEdit={openUpdateModal} onDelete={handleOpenDeleteModal} startIndex={startIndex} />
+
           <Pagination />
         </div>
       </div>

@@ -17,6 +17,7 @@ const Materias = () => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
   const [deleteProductId, setDeleteProductId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1); // Definir currentPage como estado inicial
 
   useEffect(() => {
     fetchProducts();
@@ -116,6 +117,10 @@ const Materias = () => {
     }
   };
 
+  // Cálculo de startIndex
+  const productsPerPage = 5; // Definir la cantidad de productos por página
+  const startIndex = (currentPage - 1) * productsPerPage + 1;
+
   return (
     <section className="bg-gray-50 dark:bg-gray-900 min-h-screen py-12 sm:ml-64 mt-12">
       <div className="mx-auto px-4 lg:px-12">
@@ -128,7 +133,7 @@ const Materias = () => {
               <button className='flex items-center justify-center text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-green-500 dark:hover:bg-green-600 focus:outline-none dark:focus:ring-green-800' onClick={handleOpenCreateModal}>Agregar Producto</button>
             </div>
           </div>
-          <Table products={filteredProducts} onEdit={openUpdateModal} onDelete={handleOpenDeleteModal} />
+          <Table products={filteredProducts} onEdit={openUpdateModal} onDelete={handleOpenDeleteModal} startIndex={startIndex} />
           <Pagination />
         </div>
       </div>
