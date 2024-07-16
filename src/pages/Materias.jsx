@@ -24,48 +24,37 @@ const Materias = () => {
   }, []);
 
   useEffect(() => {
-    if (searchQuery === '') {
-      setFilteredProducts(products);
-    } else {
-      const filtered = products.filter(product =>
-        product.name && product.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setFilteredProducts(filtered);
-    }
+    filterProducts();
   }, [searchQuery, products]);
 
   const fetchProducts = async () => {
     try {
       const data = await getAllProduct();
       setProducts(data);
-      setFilteredProducts(data); // Mostrar todos los productos inicialmente
+      filterProducts(data); // Filtrar productos al obtenerlos
     } catch (error) {
       console.error('Error fetching products:', error);
     }
   };
 
-  const handleSearch = (value) => {
-    const searchQuery = value.trim().toLowerCase();
+  const filterProducts = (data = products) => {
+    const filtered = data.filter(product =>
+      product.product_name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredProducts(filtered); // Actualizar lista de productos filtrados
+  };
 
-    if (searchQuery === '') {
-      setFilteredProducts(products); // Mostrar todos los productos si la búsqueda está vacía
-    } else {
-      const filtered = products.filter((product) => {
-        if (!product.product_name) return false; // Filtrar solo por productos con nombre definido
-        const productName = product.product_name.toLowerCase();
-        return productName.includes(searchQuery); // Filtrar productos que contienen la búsqueda en el nombre
-      });
-      setFilteredProducts(filtered); // Actualizar productos filtrados
-    }
+  const handleSearch = (value) => {
+    setSearchQuery(value); // Actualizar consulta de búsqueda
   };
 
   const handleOpenCreateModal = () => {
-    setIsCreateModalOpen(true);
+    setIsCreateModalOpen(true); // Abrir modal de creación
   };
 
   const handleCloseCreateModal = () => {
-    setIsCreateModalOpen(false);
-    fetchProducts(); // Actualizar lista de productos al cerrar el modal de creación
+    setIsCreateModalOpen(false); // Cerrar modal de creación
+    fetchProducts(); // Actualizar lista de productos al cerrar el modal
   };
 
   const handleAddProduct = async (newProductData) => {
@@ -82,7 +71,7 @@ const Materias = () => {
 
   const openUpdateModal = (product) => {
     setCurrentProduct(product);
-    setIsUpdateModalOpen(true);
+    setIsUpdateModalOpen(true); // Abrir modal de actualización
   };
 
   const handleEditProduct = async (updatedProductData) => {
@@ -98,18 +87,18 @@ const Materias = () => {
   };
 
   const handleOpenDeleteModal = (productId) => {
-    setDeleteProductId(productId);
+    setDeleteProductId(productId); // Establecer ID del producto a eliminar
   };
 
   const handleCancelDelete = () => {
-    setDeleteProductId(null);
+    setDeleteProductId(null); // Limpiar ID del producto a eliminar
   };
 
   const handleDeleteProduct = async () => {
     try {
       await deleteProduct(deleteProductId);
       fetchProducts(); // Actualizar lista de productos tras eliminar uno
-      setDeleteProductId(null); // Limpiar ID de producto a eliminar
+      setDeleteProductId(null); // Limpiar ID del producto a eliminar
       toast.success('Producto eliminado correctamente');
     } catch (error) {
       console.error('Error al eliminar el producto:', error);
@@ -134,7 +123,7 @@ const Materias = () => {
             </div>
           </div>
           <Table products={filteredProducts} onEdit={openUpdateModal} onDelete={handleOpenDeleteModal} startIndex={startIndex} />
-          <Pagination />
+          <Pagination currentPage={currentPage} totalPages={Math.ceil(filteredProducts.length / productsPerPage)} onPageChange={setCurrentPage} />
         </div>
       </div>
 

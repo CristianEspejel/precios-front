@@ -17,7 +17,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     <div className="flex justify-between items-center p-4">
       <button
         onClick={handlePrevious}
-        className={`inline-flex items-center py-2 px-4 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+        className={`inline-flex items-center py-2 px-4 text-sm font-medium text-white bg-green-500 rounded-lg hover:bg-green-600 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
         disabled={currentPage === 1}
       >
         Anterior
@@ -25,7 +25,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
       <span>{`${currentPage} / ${totalPages}`}</span>
       <button
         onClick={handleNext}
-        className={`inline-flex items-center py-2 px-4 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
+        className={`inline-flex items-center py-2 px-4 text-sm font-medium text-white bg-green-500 rounded-lg hover:bg-green-600 ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
         disabled={currentPage === totalPages}
       >
         Siguiente

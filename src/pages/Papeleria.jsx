@@ -17,48 +17,36 @@ const Papeleria = () => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
   const [deleteProductId, setDeleteProductId] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1); // Estado para la página actual
-  const [productsPerPage] = useState(5); // Cantidad de productos por página
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(20);
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
   useEffect(() => {
-    if (searchQuery === '') {
-      setFilteredProducts(products);
-    } else {
-      const filtered = products.filter(product =>
-        product.name && product.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      console.log("Filtered products:", filtered); // Agrega este console.log
-      setFilteredProducts(filtered);
-    }
+    filterProducts();
   }, [searchQuery, products]);
 
   const fetchProducts = async () => {
     try {
       const data = await getAllProduct();
       setProducts(data);
-      setFilteredProducts(data); // Inicialmente mostrar todos los productos
+      filterProducts(data);
     } catch (error) {
       console.error('Error fetching products:', error);
     }
   };
 
-  const handleSearch = (value) => {
-    const searchQuery = value.trim().toLowerCase();
+  const filterProducts = (data = products) => {
+    const filtered = data.filter(product =>
+      product.product_name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  };
 
-    if (searchQuery === '') {
-      setFilteredProducts(products); // Mostrar todos los productos si la búsqueda está vacía
-    } else {
-      const filtered = products.filter((product) => {
-        if (!product.product_name) return false; // Filtrar solo por productos con nombre definido
-        const productName = product.product_name.toLowerCase();
-        return productName.includes(searchQuery); // Filtrar productos que contienen la búsqueda en el nombre
-      });
-      setFilteredProducts(filtered); // Actualizar productos filtrados
-    }
+  const handleSearch = (value) => {
+    setSearchQuery(value);
   };
 
   const handleOpenCreateModal = () => {
@@ -73,9 +61,9 @@ const Papeleria = () => {
   const handleAddProduct = async (newProductData) => {
     try {
       await addProduct(newProductData);
+      toast.success('Producto agregado correctamente');
       fetchProducts();
       handleCloseCreateModal();
-      toast.success('Producto agregado correctamente');
     } catch (error) {
       console.error('Error al agregar el producto:', error);
       toast.error('Hubo un error al agregar el producto');
@@ -87,10 +75,14 @@ const Papeleria = () => {
     setIsUpdateModalOpen(true);
   };
 
-  const handleEditProduct = async (updatedProductData) => {
+  const handleEditProduct = async (productId, productData) => {
     try {
-      await editProduct(currentProduct.id, updatedProductData);
-      fetchProducts();
+      const updatedProduct = await editProduct(productId, productData);
+      setProducts(prevProducts =>
+        prevProducts.map(product =>
+          product.id === productId ? updatedProduct : product
+        )
+      );
       setIsUpdateModalOpen(false);
       toast.success('Producto actualizado correctamente');
     } catch (error) {
@@ -110,16 +102,27 @@ const Papeleria = () => {
   const handleDeleteProduct = async () => {
     try {
       await deleteProduct(deleteProductId);
+      toast.success('Producto eliminado correctamente');
       fetchProducts();
       setDeleteProductId(null);
-      toast.success('Producto eliminado correctamente');
     } catch (error) {
       console.error('Error al eliminar el producto:', error);
       toast.error('Hubo un error al eliminar el producto');
     }
   };
-  // Cálculo de startIndex
-  const startIndex = (currentPage - 1) * productsPerPage + 1;
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // Calcular productos para la página actual
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  // Calcular startIndex para la numeración en la tabla
+  const startIndex = indexOfFirstProduct + 1;
+
   return (
     <section className="bg-gray-50 dark:bg-gray-900 min-h-screen py-12 sm:ml-64 mt-12">
       <div className="mx-auto px-4 lg:px-12">
@@ -132,15 +135,12 @@ const Papeleria = () => {
               <button className='flex items-center justify-center text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-green-500 dark:hover:bg-green-600 focus:outline-none dark:focus:ring-green-800' onClick={handleOpenCreateModal}>Agregar Producto</button>
             </div>
           </div>
-          {/* <Table products={filteredProducts} onEdit={openUpdateModal} onDelete={handleOpenDeleteModal} /> */}
-          {/* <Table products={filteredProducts} onEdit={openUpdateModal} onDelete={handleOpenDeleteModal} startIndex={(currentPage - 1) * productsPerPage} /> */}
-          <Table products={filteredProducts} onEdit={openUpdateModal} onDelete={handleOpenDeleteModal} startIndex={startIndex} />
-
-          <Pagination />
+          <Table products={currentProducts} onEdit={openUpdateModal} onDelete={handleOpenDeleteModal} startIndex={startIndex} />
+          <Pagination currentPage={currentPage} totalPages={Math.ceil(filteredProducts.length / productsPerPage)} onPageChange={handlePageChange} />
         </div>
       </div>
 
-      {isCreateModalOpen && <CreateProductModal onClose={handleCloseCreateModal} onSave={handleAddProduct}/>}
+      {isCreateModalOpen && <CreateProductModal onClose={handleCloseCreateModal} onSave={handleAddProduct} />}
       {isUpdateModalOpen && <UpdateProductModal product={currentProduct} onClose={() => setIsUpdateModalOpen(false)} onSave={handleEditProduct} />}
       {deleteProductId && <DeleteConfirmationModal onConfirm={handleDeleteProduct} onCancel={handleCancelDelete} />}
     </section>

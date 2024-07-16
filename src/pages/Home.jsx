@@ -20,7 +20,7 @@ const Home = () => {
               <img src={PapeleriaIcon} alt="Papelería" className="w-16 h-16 mb-4" />
               <span className="text-lg font-semibold text-gray-900 dark:text-white">Papelería</span>
             </Link>
-            <Link to="/realizar-venta" className="flex flex-col items-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-gray-700">
+            <Link to="/venta" className="flex flex-col items-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-gray-700">
               <img src={VentaIcon} alt="Realizar Venta" className="w-16 h-16 mb-4" />
               <span className="text-lg font-semibold text-gray-900 dark:text-white">Realizar Venta</span>
             </Link>
@@ -31,6 +31,10 @@ const Home = () => {
             <Link to="/papeleria-deudores" className="flex flex-col items-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-gray-700">
               <img src={DeudoresPapeleriaIcon} alt="Lista Deudores Papelería" className="w-16 h-16 mb-4" />
               <span className="text-lg font-semibold text-gray-900 dark:text-white">Lista Deudores Papelería</span>
+            </Link>
+            <Link to="/iva" className="flex flex-col items-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-gray-700">
+              <img src={DeudoresPapeleriaIcon} alt="Lista Deudores Papelería" className="w-16 h-16 mb-4" />
+              <span className="text-lg font-semibold text-gray-900 dark:text-white">Calculadora iva</span>
             </Link>
           </div>
         </div>

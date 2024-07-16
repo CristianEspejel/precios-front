@@ -11,6 +11,8 @@ import MateriasDeudores from '../pages/MateriasDeudores';
 import Papeleria from '../pages/Papeleria';
 import PapeleriaDeudores from '../pages/PapeDeudores';
 import Deudores from '../pages/Deudores';
+import CalculadoraIva from '../pages/Iva';
+import RealizarVenta from '../pages/Venta';
 
 function App() {
   return (
@@ -28,6 +30,9 @@ function App() {
           <Route path="/papeleria" element={<Papeleria />} />
           <Route path="/papeleria-deudores" element={<PapeleriaDeudores />} />
           <Route path="/deudores" element={<Deudores />} />
+          <Route path="/iva" element={<CalculadoraIva />} />
+          <Route path="/venta" element={<RealizarVenta/>} />
+
         </Routes>
       </div>
     </Router>

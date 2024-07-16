@@ -81,8 +81,52 @@ export const addProduct = (newProduct) => {
 // };
 
 
+// export const editProduct = (productId, updatedProduct) => {
+//   return fetch(`http://localhost:8080/prices/papeleria/edit/${productId}`, {
+//     method: 'PUT',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify(updatedProduct)
+//   })
+//     .then(response => {
+//       if (!response.ok) {
+//         throw new Error('Error al actualizar el producto: ' + response.status);
+//       }
+//       return response.json();
+//     })
+//     .catch(error => {
+//       console.error('Error en la función editProduct:', error);
+//       throw error;
+//     });
+// };
+// async function editProduct(productId, productData) {
+//   try {
+//       const response = await fetch(`http://localhost:8080/prices/papeleria/edit/${productId}`, {
+//           method: 'PUT',
+//           headers: {
+//               'Content-Type': 'application/json',
+//           },
+//           body: JSON.stringify(productData),
+//       });
+//       if (!response.ok) {
+//           throw new Error(`Error al actualizar el producto: ${response.status}`);
+//       }
+//       return await response.json();
+//   } catch (error) {
+//       console.error('Error en la función editProduct:', error);
+//       throw error;
+//   }
+// }
+
+
+// productServices.js
+
 export const editProduct = (productId, updatedProduct) => {
-  return fetch(`http://localhost:8080/prices/papeleria/${productId}`, {
+  const url = `${apiUrl}/edit/${productId}`;
+  console.log('URL de actualización:', url); // Verificar la URL generada
+  console.log('Datos enviados:', updatedProduct); // Verificar los datos enviados
+  return fetch(url, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -100,6 +144,9 @@ export const editProduct = (productId, updatedProduct) => {
       throw error;
     });
 };
+
+
+
 
 
 // Eliminar un producto de papelería
