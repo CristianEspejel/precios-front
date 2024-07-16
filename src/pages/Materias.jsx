@@ -111,7 +111,7 @@ const Materias = () => {
   const startIndex = (currentPage - 1) * productsPerPage + 1;
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900 min-h-screen py-12 sm:ml-64 mt-12">
+    <section className="bg-gray-50 dark:bg-gray-900 min-h-screen py-12 sm:ml-26 mt-12">
       <div className="mx-auto px-4 lg:px-12">
         <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
           <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">

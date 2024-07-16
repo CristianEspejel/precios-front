@@ -5,7 +5,7 @@ import DeudoresPapeleriaIcon from '../assets/deuda.png';
 
 const Deudores = () => {
   return (
-    <section className="bg-gray-50 dark:bg-gray-900 min-h-screen pt-40 sm:ml-64">
+    <section className="bg-gray-50 dark:bg-gray-900 min-h-screen pt-40 sm:ml-26">
       <div className="mx-auto px-4 lg:px-12">
         <div className="flex justify-center items-center h-full">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">

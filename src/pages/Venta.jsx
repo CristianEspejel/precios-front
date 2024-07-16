@@ -100,7 +100,7 @@ const RealizarVenta = () => {
   const paginatedProducts = filteredProducts.slice(startIndex, startIndex + productsPerPage);
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900 min-h-screen py-12 sm:ml-64 mt-12">
+    <section className="bg-gray-50 dark:bg-gray-900 min-h-screen py-12 sm:ml-26 mt-12">
       <div className="mx-auto px-4 lg:px-12">
         <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

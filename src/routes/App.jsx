@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify'; // Importa ToastContainer desde react-toastify
-import 'react-toastify/dist/ReactToastify.css'; // Importa los estilos CSS de react-toastify
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Header from '../components/header/header';
 import Sidebar from '../components/sidebar/sidebar';
@@ -15,13 +15,19 @@ import CalculadoraIva from '../pages/Iva';
 import RealizarVenta from '../pages/Venta';
 
 function App() {
+  const [sidebarVisible, setSidebarVisible] = useState(true);
+
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible);
+  };
+
   return (
     <Router>
       <div>
         <ToastContainer />
         
         <Header />
-        <Sidebar />  
+        <Sidebar isVisible={sidebarVisible} toggleSidebar={toggleSidebar} />  
         
         <Routes>
           <Route path="/" element={<Home />} />
