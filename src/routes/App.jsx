@@ -4,7 +4,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Header from '../components/header/header';
-import Sidebar from '../components/sidebar/sidebar';
 import Home from '../pages/Home';
 import MateriasPrimas from '../pages/Materias';
 import MateriasDeudores from '../pages/MateriasDeudores';
@@ -15,7 +14,7 @@ import CalculadoraIva from '../pages/Iva';
 import RealizarVenta from '../pages/Venta';
 
 function App() {
-  const [sidebarVisible, setSidebarVisible] = useState(true);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
@@ -25,10 +24,7 @@ function App() {
     <Router>
       <div>
         <ToastContainer />
-        
-        <Header />
-        <Sidebar isVisible={sidebarVisible} toggleSidebar={toggleSidebar} />  
-        
+        <Header sidebarVisible={sidebarVisible} toggleSidebar={toggleSidebar} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/materias-primas" element={<MateriasPrimas />} />
@@ -37,8 +33,7 @@ function App() {
           <Route path="/papeleria-deudores" element={<PapeleriaDeudores />} />
           <Route path="/deudores" element={<Deudores />} />
           <Route path="/iva" element={<CalculadoraIva />} />
-          <Route path="/venta" element={<RealizarVenta/>} />
-
+          <Route path="/venta" element={<RealizarVenta />} />
         </Routes>
       </div>
     </Router>
