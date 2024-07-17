@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 
 const CobroConTarjeta = ({ totalVenta }) => {
   const [montoCobrado, setMontoCobrado] = useState('');
-  const porcentajeComision = 3.5; // Porcentaje de comisión
+  const porcentajeComision = 3.5; // Porcentaje de comisión para cobro con tarjeta
+  const porcentajeComisionMeses = 4.69; // Porcentaje de comisión para cobro a meses
   const iva = 0.16; // IVA
 
   const handleInputChange = (e) => {
@@ -13,9 +14,20 @@ const CobroConTarjeta = ({ totalVenta }) => {
     if (montoCobrado) {
       const montoBruto = parseFloat(montoCobrado);
       const comision = (montoBruto * porcentajeComision) / 100;
-      const totalConComision = montoBruto + comision;
-      const totalConIva = totalConComision * (1 + iva);
-      return totalConIva.toFixed(2);
+      const ivaComision = comision * iva;
+      const totalConComisionYIva = montoBruto + comision + ivaComision;
+      return totalConComisionYIva.toFixed(2);
+    }
+    return '';
+  };
+
+  const calcularTotalCobradoMeses = () => {
+    if (montoCobrado) {
+      const montoBruto = parseFloat(montoCobrado);
+      const comision = (montoBruto * porcentajeComisionMeses) / 100;
+      const ivaComision = comision * iva;
+      const totalConComisionYIva = montoBruto + comision + ivaComision;
+      return totalConComisionYIva.toFixed(2);
     }
     return '';
   };
@@ -34,9 +46,13 @@ const CobroConTarjeta = ({ totalVenta }) => {
           className="p-2 border border-green-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 w-1/2"
         />
       </div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-4">
         <span className="text-lg font-semibold text-green-700 dark:text-green-300">Total Cobrado (con 3.5% + IVA):</span>
         <span className="text-lg font-semibold text-green-700 dark:text-green-300">${calcularTotalCobrado()}</span>
+      </div>
+      <div className="flex items-center justify-between mb-2">
+        <span className="text-lg font-semibold text-green-700 dark:text-green-300">Total Cobrado a Meses (con 4.69% + IVA):</span>
+        <span className="text-lg font-semibold text-green-700 dark:text-green-300">${calcularTotalCobradoMeses()}</span>
       </div>
     </div>
   );
