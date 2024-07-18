@@ -37,29 +37,8 @@ export const addProduct = (newProduct) => {
 };
 
 // Editar un producto de materias existente
-// export const editProduct = (productId, updatedProduct) => {
-//   return fetch(`${apiUrl}/edit/${productId}`, {
-//     method: 'PUT',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify(updatedProduct)
-//   })
-//     .then(response => {
-//       if (!response.ok) {
-//         throw new Error('Error al actualizar el producto: ' + response.status);
-//       }
-//       return response.json();
-//     })
-//     .catch(error => {
-//       console.error('Error en la función editProduct:', error);
-//       throw error;
-//     });
-// };
-
-
 export const editProduct = (productId, updatedProduct) => {
-  return fetch(`https://precios-back-production.up.railway.app/papeleria/${productId}`, {
+  return fetch(`https://precios-back-production.up.railway.app/products/materias/edit/${productId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
