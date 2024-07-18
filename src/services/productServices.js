@@ -1,7 +1,7 @@
 // ProductService.js
 
-// const apiUrl = 'http://localhost:8080/prices/papeleria'; // URL base de tu API para la categoría 'papeleria'
-const apiUrl = 'https://precios-back-production.up.railway.app/prices/papeleria';
+const apiUrl = 'http://localhost:8080/prices/papeleria'; // URL base de tu API para la categoría 'papeleria'
+// const apiUrl = 'https://precios-back-production.up.railway.app/prices/papeleria';
 // Obtener todos los productos de papelería
 export const getAllProduct = () => {
   return fetch(apiUrl)
@@ -42,8 +42,8 @@ export const addProduct = (newProduct) => {
 
 export const editProduct = (productId, updatedProduct) => {
   const url = `${apiUrl}/edit/${productId}`;
-  console.log('URL de actualización:', url); // Verificar la URL generada
-  console.log('Datos enviados:', updatedProduct); // Verificar los datos enviados
+  // console.log('URL de actualización:', url); // Verificar la URL generada
+  // console.log('Datos enviados:', updatedProduct); // Verificar los datos enviados
   return fetch(url, {
     method: 'PUT',
     headers: {

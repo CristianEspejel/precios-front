@@ -102,12 +102,12 @@ const Papeleria = () => {
   const handleDeleteProduct = async () => {
     try {
       await deleteProduct(deleteProductId);
-      toast.success('Producto eliminado correctamente');
+      // toast.success('Producto eliminado correctamente');
       fetchProducts();
       setDeleteProductId(null);
     } catch (error) {
       console.error('Error al eliminar el producto:', error);
-      toast.error('Hubo un error al eliminar el producto');
+      // toast.error('Hubo un error al eliminar el producto');
     }
   };
 

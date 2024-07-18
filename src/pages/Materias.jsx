@@ -17,7 +17,8 @@ const Materias = () => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
   const [deleteProductId, setDeleteProductId] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1); // Definir currentPage como estado inicial
+  const [currentPage, setCurrentPage] = useState(1); 
+  const [productsPerPage] = useState(20);
 
   useEffect(() => {
     fetchProducts();
@@ -99,15 +100,18 @@ const Materias = () => {
       await deleteProduct(deleteProductId);
       fetchProducts(); // Actualizar lista de productos tras eliminar uno
       setDeleteProductId(null); // Limpiar ID del producto a eliminar
-      toast.success('Producto eliminado correctamente');
+      // toast.success('Producto eliminado correctamente');
     } catch (error) {
       console.error('Error al eliminar el producto:', error);
-      toast.error('Hubo un error al eliminar el producto');
+      // toast.error('Hubo un error al eliminar el producto');
     }
   };
 
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
   // Cálculo de startIndex
-  const productsPerPage = 5; // Definir la cantidad de productos por página
+  
   const startIndex = (currentPage - 1) * productsPerPage + 1;
 
   return (

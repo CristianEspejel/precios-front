@@ -1,5 +1,5 @@
-// const apiUrl = 'http://localhost:8080/products/materias'; // URL base de tu API para la categoría 'materias'
-const apiUrl = 'https://precios-back-production.up.railway.app/products/materias';
+const apiUrl = 'http://localhost:8080/products/materias'; // URL base de tu API para la categoría 'materias'
+// const apiUrl = 'https://precios-back-production.up.railway.app/products/materias';
 // Obtener todos los productos de materias
 export const getAllProduct = () => {
   return fetch(apiUrl)
@@ -36,9 +36,11 @@ export const addProduct = (newProduct) => {
     });
 };
 
-// Editar un producto de materias existente
 export const editProduct = (productId, updatedProduct) => {
-  return fetch(`https://precios-back-production.up.railway.app/products/materias/edit/${productId}`, {
+  const url = `${apiUrl}/edit/${productId}`;
+  // console.log('URL de actualización:', url); // Verificar la URL generada
+  // console.log('Datos enviados:', updatedProduct); // Verificar los datos enviados
+  return fetch(url, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
