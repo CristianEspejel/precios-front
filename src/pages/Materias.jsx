@@ -112,7 +112,7 @@ const Materias = () => {
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
   // Cálculo de startIndex
   
-  const startIndex = (currentPage - 1) * productsPerPage + 1;
+  const startIndex = indexOfFirstProduct + 1;
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900 min-h-screen py-12 sm:ml-26 mt-12">
