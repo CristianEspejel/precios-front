@@ -17,7 +17,7 @@ const Materias = () => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
   const [deleteProductId, setDeleteProductId] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1); 
+  const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(20);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const Materias = () => {
     try {
       const data = await getAllProduct();
       setProducts(data);
-      filterProducts(data); // Filtrar productos al obtenerlos
+      filterProducts(data);
     } catch (error) {
       console.error('Error fetching products:', error);
     }
@@ -42,27 +42,27 @@ const Materias = () => {
     const filtered = data.filter(product =>
       product.product_name.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    setFilteredProducts(filtered); // Actualizar lista de productos filtrados
+    setFilteredProducts(filtered);
   };
 
   const handleSearch = (value) => {
-    setSearchQuery(value); // Actualizar consulta de búsqueda
+    setSearchQuery(value);
   };
 
   const handleOpenCreateModal = () => {
-    setIsCreateModalOpen(true); // Abrir modal de creación
+    setIsCreateModalOpen(true);
   };
 
   const handleCloseCreateModal = () => {
-    setIsCreateModalOpen(false); // Cerrar modal de creación
-    fetchProducts(); // Actualizar lista de productos al cerrar el modal
+    setIsCreateModalOpen(false);
+    fetchProducts();
   };
 
   const handleAddProduct = async (newProductData) => {
     try {
       await addProduct(newProductData);
-      fetchProducts(); // Actualizar lista de productos tras agregar uno nuevo
-      handleCloseCreateModal(); // Cerrar modal de creación
+      fetchProducts();
+      handleCloseCreateModal();
       toast.success('Producto agregado correctamente');
     } catch (error) {
       console.error('Error al agregar el producto:', error);
@@ -72,46 +72,48 @@ const Materias = () => {
 
   const openUpdateModal = (product) => {
     setCurrentProduct(product);
-    setIsUpdateModalOpen(true); // Abrir modal de actualización
+    setIsUpdateModalOpen(true);
   };
 
   const handleEditProduct = async (updatedProductData) => {
     try {
       await editProduct(currentProduct.id, updatedProductData);
-      fetchProducts(); // Actualizar lista de productos tras editar uno
-      setIsUpdateModalOpen(false); // Cerrar modal de edición
+      const updatedProducts = products.map(product =>
+        product.id === currentProduct.id ? { ...product, ...updatedProductData } : product
+      );
+      setProducts(updatedProducts);
+      setIsUpdateModalOpen(false);
       toast.success('Producto actualizado correctamente');
     } catch (error) {
-      console.error('Error al actualizar el producto:', error);
-      toast.error('Hubo un error al actualizar el producto');
+      // console.error('Error al actualizar el producto:', error);
+      // toast.error('Hubo un error al actualizar el producto');
     }
   };
 
   const handleOpenDeleteModal = (productId) => {
-    setDeleteProductId(productId); // Establecer ID del producto a eliminar
+    setDeleteProductId(productId);
   };
 
   const handleCancelDelete = () => {
-    setDeleteProductId(null); // Limpiar ID del producto a eliminar
+    setDeleteProductId(null);
   };
 
   const handleDeleteProduct = async () => {
     try {
       await deleteProduct(deleteProductId);
-      fetchProducts(); // Actualizar lista de productos tras eliminar uno
-      setDeleteProductId(null); // Limpiar ID del producto a eliminar
-      // toast.success('Producto eliminado correctamente');
+      setProducts(products.filter(product => product.id !== deleteProductId));
+      setDeleteProductId(null);
+      toast.success('Producto eliminado correctamente');
     } catch (error) {
       console.error('Error al eliminar el producto:', error);
-      // toast.error('Hubo un error al eliminar el producto');
+      toast.error('Hubo un error al eliminar el producto');
     }
   };
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-  // Cálculo de startIndex
-  
+
   const startIndex = indexOfFirstProduct + 1;
 
   return (
@@ -126,12 +128,12 @@ const Materias = () => {
               <button className='flex items-center justify-center text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-green-500 dark:hover:bg-green-600 focus:outline-none dark:focus:ring-green-800' onClick={handleOpenCreateModal}>Agregar Producto</button>
             </div>
           </div>
-          <Table products={filteredProducts} onEdit={openUpdateModal} onDelete={handleOpenDeleteModal} startIndex={startIndex} />
+          <Table products={currentProducts} onEdit={openUpdateModal} onDelete={handleOpenDeleteModal} startIndex={startIndex} />
           <Pagination currentPage={currentPage} totalPages={Math.ceil(filteredProducts.length / productsPerPage)} onPageChange={setCurrentPage} />
         </div>
       </div>
 
-      {isCreateModalOpen && <CreateMateriasModal onClose={handleCloseCreateModal} onSave={handleAddProduct}/>}
+      {isCreateModalOpen && <CreateMateriasModal onClose={handleCloseCreateModal} onSave={handleAddProduct} />}
       {isUpdateModalOpen && <UpdateMateriasModal product={currentProduct} onClose={() => setIsUpdateModalOpen(false)} onSave={handleEditProduct} />}
       {deleteProductId && <DeleteMateriasModal onConfirm={handleDeleteProduct} onCancel={handleCancelDelete} />}
     </section>
