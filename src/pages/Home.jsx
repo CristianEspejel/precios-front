@@ -6,6 +6,8 @@ import VentaIcon from '../assets/venta.png';
 import DeudoresMateriaIcon from '../assets/deudor.png';
 import DeudoresPapeleriaIcon from '../assets/deuda.png';
 import Calculadora from '../assets/calculadora.png'
+import Timer from '../assets/cronometro.png'
+import ventaM from '../assets/ventam.png'
 
 const Home = () => {
   return (
@@ -25,6 +27,10 @@ const Home = () => {
               <img src={VentaIcon} alt="Realizar Venta" className="w-16 h-16 mb-4" />
               <span className="text-lg font-semibold text-gray-900 dark:text-white">Realizar Venta Pape</span>
             </Link>
+            <Link to="/venta-materias" className="flex flex-col items-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-gray-700">
+              <img src={ventaM} alt="Realizar Venta" className="w-16 h-16 mb-4" />
+              <span className="text-lg font-semibold text-gray-900 dark:text-white">Realizar Venta Materias</span>
+            </Link>
             <Link to="/materias-deudores" className="flex flex-col items-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-gray-700">
               <img src={DeudoresMateriaIcon} alt="Lista Deudores Materia" className="w-16 h-16 mb-4" />
               <span className="text-lg font-semibold text-gray-900 dark:text-white">Lista Deudores Materia</span>
@@ -35,6 +41,10 @@ const Home = () => {
             </Link>
             <Link to="/iva" className="flex flex-col items-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-gray-700">
               <img src={Calculadora} alt="Lista Deudores Papelería" className="w-16 h-16 mb-4" />
+              <span className="text-lg font-semibold text-gray-900 dark:text-white">Calculadora iva</span>
+            </Link>
+            <Link to="/timer" className="flex flex-col items-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-gray-700">
+              <img src={Timer} alt="Lista Deudores Papelería" className="w-16 h-16 mb-4" />
               <span className="text-lg font-semibold text-gray-900 dark:text-white">Calculadora iva</span>
             </Link>
           </div>

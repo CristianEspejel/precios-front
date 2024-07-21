@@ -12,6 +12,8 @@ import PapeleriaDeudores from '../pages/PapeDeudores';
 import Deudores from '../pages/Deudores';
 import CalculadoraIva from '../pages/Iva';
 import RealizarVenta from '../pages/Venta';
+import TimerView from '../pages/TimerViewver';
+import RealizarVentaM from '../pages/RealizarVentaM';
 
 function App() {
   const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -34,6 +36,8 @@ function App() {
           <Route path="/deudores" element={<Deudores />} />
           <Route path="/iva" element={<CalculadoraIva />} />
           <Route path="/venta" element={<RealizarVenta />} />
+          <Route path="/timer" element={<TimerView />} />
+          <Route path="/venta-materias" element={<RealizarVentaM />} />
         </Routes>
       </div>
     </Router>
